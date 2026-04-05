@@ -35,10 +35,11 @@
 
         /* --- SCREEN 1: THE GAME --- */
         .sticker { width: 220px; height: 220px; object-fit: contain; margin-bottom: 20px; border-radius: 20px; }
-        .btn-container { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 400px; position: relative; }
+        .btn-container { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 350px; position: relative; }
         button.main-btn { border: none; border-radius: 15px; cursor: pointer; font-family: 'Gaegu', cursive; font-weight: bold; font-size: 1.5rem; transition: transform 0.2s; }
+        
         #yesBtn { background-color: var(--pastel-green); color: white; padding: 15px 40px; z-index: 10; position: relative; }
-        #noBtn { background-color: var(--pastel-red); color: white; padding: 15px 40px; position: absolute; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; }
+        #noBtn { background-color: var(--pastel-red); color: white; padding: 10px 25px; font-size: 1.1rem; position: absolute; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; }
 
         /* --- SCREEN 2: GIFT MENU --- */
         .gift-grid { display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
@@ -50,7 +51,7 @@
         /* --- PAGE 1: AESTHETIC MEMORY GRID --- */
         .photo-strip {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 40px;
             padding: 40px 20px;
             perspective: 1000px;
@@ -64,8 +65,7 @@
         }
         .polaroid:nth-child(odd) { transform: rotate(-3deg); }
         .polaroid:nth-child(even) { transform: rotate(4deg); }
-        .polaroid:nth-child(3n) { transform: rotate(-5deg) translateY(10px); }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
         
         .polaroid img { width: 100%; height: 200px; object-fit: cover; pointer-events: none; }
         .polaroid p { margin: 10px 0 0 0; font-size: 1.1rem; color: #777; }
@@ -74,41 +74,37 @@
         .partner-left { transform: rotate(-8deg) !important; margin-right: -30px; z-index: 2; }
         .partner-right { transform: rotate(6deg) !important; margin-left: -30px; z-index: 1; }
 
-        #lightbox {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: none; align-items: center;
-            justify-content: center; z-index: 1000; cursor: zoom-out;
-        }
-        #lightbox img { max-width: 90%; max-height: 80%; border: 10px solid white; border-bottom: 50px solid white; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-
         /* --- PAGE 2: MUSIC BOX --- */
         #page2 { width: 100%; display: flex; flex-direction: column; align-items: center; }
         .music-layout { display: flex; gap: 25px; width: 100%; max-width: 800px; margin: 20px auto; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
-        .vinyl-box { background-color: var(--pastel-pink); border-radius: 20px; padding: 30px; display: flex; align-items: center; justify-content: center; width: 250px; height: 250px; box-sizing: border-box; box-shadow: 0 8px 15px rgba(255, 209, 220, 0.4); }
+        .vinyl-box { background-color: var(--pastel-pink); border-radius: 20px; padding: 30px; display: flex; align-items: center; justify-content: center; width: 250px; height: 250px; box-shadow: 0 8px 15px rgba(255, 209, 220, 0.4); }
         .vinyl { width: 190px; height: 190px; background-color: #333; border-radius: 50%; border: 10px solid #222; display: flex; align-items: center; justify-content: center; animation: spin 6s linear infinite; animation-play-state: paused; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .vinyl-inner { width: 60px; height: 60px; background-color: var(--pastel-pink); border-radius: 50%; border: 3px solid #fff; }
+        
         .video-controls-area { flex: 1; min-width: 320px; max-width: 480px; display: flex; flex-direction: column; gap: 15px; }
-        .video-box { background-color: white; border-radius: 20px; padding: 20px; aspect-ratio: 16 / 9; box-shadow: 0 8px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .video-box { background-color: white; border-radius: 20px; padding: 20px; aspect-ratio: 16 / 9; box-shadow: 0 8px 15px rgba(0,0,0,0.05); overflow: hidden; }
         #myVideo { width: 100%; border-radius: 10px; }
-        .controls-box { background-color: var(--pastel-pink); border-radius: 15px; padding: 10px 20px; box-shadow: 0 5px 10px rgba(255, 209, 220, 0.3); display: flex; justify-content: space-between; align-items: center; }
-        .play-pause-btn { background-color: white; color: var(--text-red); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; cursor: pointer; transition: all 0.2s; font-size: 1.2rem; }
+        
+        .controls-box { background-color: var(--pastel-pink); border-radius: 15px; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .play-pause-btn { background-color: white; color: var(--text-red); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .duration-line { flex: 1; height: 4px; background-color: white; margin: 0 15px; border-radius: 2px; position: relative; }
-        .duration-progress { width: 0%; height: 100%; background-color: var(--text-red); border-radius: 2px; position: absolute; top: 0; left: 0; }
+        .duration-progress { width: 0%; height: 100%; background-color: var(--text-red); position: absolute; }
 
         /* --- PAGE 3: STICKY WALL --- */
-        .wall-container { background: #f0f0f0; border: 8px solid #ddd; border-radius: 15px; min-height: 400px; padding: 20px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0; }
-        .sticky-note { width: 140px; height: 140px; padding: 15px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); transform: rotate(-2deg); font-size: 1rem; text-align: left; word-wrap: break-word; overflow-y: auto; }
         .note-controls { background: white; padding: 20px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        textarea { width: 90%; height: 60px; border: 2px solid var(--pastel-pink); border-radius: 10px; font-family: 'Gaegu'; padding: 10px; margin-bottom: 10px; }
-        .color-btn { width: 25px; height: 25px; border-radius: 50%; display: inline-block; margin: 5px; cursor: pointer; border: 2px solid #fff; }
+        textarea { width: 90%; height: 80px; border: 2px solid var(--pastel-pink); border-radius: 10px; font-family: 'Gaegu'; padding: 10px; margin-bottom: 10px; font-size: 1.1rem; }
+        .color-selection { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .color-btn { width: 40px; height: 40px; border-radius: 50%; border: 4px solid white; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .color-btn.active { border-color: var(--text-red); transform: scale(1.1); }
+        
+        .wall-container { background: #f0f0f0; border: 8px solid #ddd; border-radius: 15px; min-height: 400px; padding: 20px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        .sticky-note { width: 140px; height: 140px; padding: 15px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); transform: rotate(-2deg); font-size: 1rem; text-align: left; overflow-y: auto; }
 
-        .go-back-btn { margin-top: 30px; background: var(--pastel-pink); padding: 10px 40px; color: white; border-radius: 15px; cursor: pointer; border: none; font-family: 'Gaegu'; }
+        .go-back-btn { margin-top: 30px; background: var(--pastel-pink); padding: 12px 40px; color: white; border-radius: 15px; cursor: pointer; border: none; font-family: 'Gaegu'; font-size: 1.2rem; }
     </style>
 </head>
 <body onload="initApp()">
-
-<div id="lightbox" onclick="this.style.display='none'"><img id="lightboxImg"></div>
 
 <div class="container">
     <div id="screen1">
@@ -116,7 +112,7 @@
         <h1 id="mainTitle" style="color: var(--text-red); font-size: 2.5rem;">Do you love me? 🎀</h1>
         <div class="btn-container" id="gameArea">
             <button id="yesBtn" class="main-btn" onclick="showGifts()">Yes</button>
-            <button id="noBtn" class="main-btn" onmouseover="moveNoButton()" onclick="handleNo()">No</button>
+            <button id="noBtn" class="main-btn" onmouseover="handleNo()" onclick="handleNo()">No</button>
         </div>
     </div>
 
@@ -132,22 +128,21 @@
 
     <div id="page1" class="hidden">
         <h1 style="color: var(--text-red); font-size: 2.5rem;">Captured Memories</h1>
-        
-        <div class="photo-strip" id="photoGrid">
-            <div class="polaroid" onclick="enlarge(this)"><img src="20260217015836_1.jpg"><p>love you</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="20260328095546_1.jpg"><p>sweetly</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="20260328100013_1.jpg"><p>always</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="20260328101557_1.jpg"><p>captured</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="20260228215635_1.jpg"><p>us</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260403_092922.jpg"><p>skies</p></div>
+        <div class="photo-strip">
+            <div class="polaroid"><img src="20260217015836_1.jpg"><p>love you</p></div>
+            <div class="polaroid"><img src="20260328095546_1.jpg"><p>sweetly</p></div>
+            <div class="polaroid"><img src="20260328100013_1.jpg"><p>always</p></div>
+            <div class="polaroid"><img src="20260328101557_1.jpg"><p>captured</p></div>
+            <div class="polaroid"><img src="20260228215635_1.jpg"><p>us</p></div>
+            <div class="polaroid"><img src="SKY_20260403_092922.jpg"><p>skies</p></div>
             <div class="partner-wrapper">
-                <div class="polaroid partner-left" onclick="enlarge(this)"><img src="2325290_1925.jpg"><p>you &</p></div>
-                <div class="polaroid partner-right" onclick="enlarge(this)"><img src="SKY_20260403_085117.jpg"><p>me</p></div>
+                <div class="polaroid partner-left"><img src="2325290_1925.jpg"><p>you &</p></div>
+                <div class="polaroid partner-right"><img src="SKY_20260403_085117.jpg"><p>me</p></div>
             </div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260226_201203.jpg"><p>starlight</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="20260304134815_1.jpg"><p>forever</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260323_224725.jpg"><p>our world</p></div>
-            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260324_081529.jpg"><p>mine</p></div>
+            <div class="polaroid"><img src="SKY_20260226_201203.jpg"><p>starlight</p></div>
+            <div class="polaroid"><img src="20260304134815_1.jpg"><p>forever</p></div>
+            <div class="polaroid"><img src="SKY_20260323_224725.jpg"><p>our world</p></div>
+            <div class="polaroid"><img src="SKY_20260324_081529.jpg"><p>mine</p></div>
         </div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
     </div>
@@ -175,11 +170,13 @@
     <div id="page3" class="hidden">
         <h1 style="color: var(--text-red);">Our Secret Wall ✍️</h1>
         <div class="note-controls">
-            <textarea id="noteInput" placeholder="Write something cute..."></textarea><br>
-            <div class="color-btn" style="background: var(--note-yellow);" onclick="setCol('#FFF9C4')"></div>
-            <div class="color-btn" style="background: var(--note-blue);" onclick="setCol('#C1E1C1')"></div>
-            <div class="color-btn" style="background: var(--note-pink);" onclick="setCol('#F8BBD0')"></div>
-            <button class="main-btn" style="background: var(--pastel-green); color:white; padding:5px 15px; font-size:1.1rem;" onclick="addNote()">Pin it!</button>
+            <textarea id="noteInput" placeholder="Write something cute..."></textarea>
+            <div class="color-selection">
+                <div class="color-btn active" style="background: var(--note-yellow);" onclick="setCol('#FFF9C4', this)"></div>
+                <div class="color-btn" style="background: var(--note-blue);" onclick="setCol('#C1E1C1', this)"></div>
+                <div class="color-btn" style="background: var(--note-pink);" onclick="setCol('#F8BBD0', this)"></div>
+            </div>
+            <button class="main-btn" style="background: var(--pastel-green); color:white; padding:10px 30px;" onclick="addNote()">Pin it!</button>
         </div>
         <div class="wall-container" id="wall"></div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
@@ -189,26 +186,45 @@
 <script>
     let clicks = 0;
     let currCol = '#FFF9C4';
-    const phrases = ["Wait... are you sure? qwq", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me :vvv", "You're persistent! XD"];
+    const phrases = ["Wait... r u sure? qwq", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me :vvv", "You're persistent! XD"];
 
-    function initApp() {
-        loadNotes();
+    function initApp() { loadNotes(); }
+
+    function handleNo() {
+        const noBtn = document.getElementById('noBtn');
+        const area = document.getElementById('gameArea');
+        const sticker = document.getElementById('mainSticker');
+        
+        const maxX = area.clientWidth - noBtn.clientWidth;
+        const maxY = area.clientHeight - noBtn.clientHeight;
+        noBtn.style.left = Math.floor(Math.random() * maxX) + 'px';
+        noBtn.style.top = Math.floor(Math.random() * maxY) + 'px';
+
+        clicks++;
+        
+        if (clicks == 1) sticker.src = "cce75f6f511daac6665568c8ffd7ce9c.gif";
+        else if (clicks == 3) sticker.src = "27174b57801a1e0335dc39438d15c6d0.gif";
+        else if (clicks == 5) sticker.src = "659781f6460a12ea529eb0bf195f9cc9.gif";
+        else if (clicks >= 6) sticker.src = "9c4f1f264e1135adc44512ff29d4bcf5.gif";
+
+        if(clicks <= phrases.length) document.getElementById('mainTitle').innerText = phrases[clicks-1];
+        document.getElementById('yesBtn').style.transform = `scale(${1 + (clicks * 0.35)})`;
     }
 
-    function enlarge(el) {
-        document.getElementById('lightboxImg').src = el.querySelector('img').src;
-        document.getElementById('lightbox').style.display = 'flex';
+    function setCol(c, el) {
+        currCol = c;
+        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
     }
 
-    // --- STICKY WALL PERSISTENCE ---
     function addNote() {
         const txt = document.getElementById('noteInput');
         if (!txt.value.trim()) return;
         const noteObj = { text: txt.value, color: currCol };
         createNote(noteObj.text, noteObj.color);
-        let saved = JSON.parse(localStorage.getItem('notes_v2')) || [];
+        let saved = JSON.parse(localStorage.getItem('mems_v5')) || [];
         saved.push(noteObj);
-        localStorage.setItem('notes_v2', JSON.stringify(saved));
+        localStorage.setItem('mems_v5', JSON.stringify(saved));
         txt.value = "";
     }
 
@@ -221,17 +237,14 @@
     }
 
     function loadNotes() {
-        let saved = JSON.parse(localStorage.getItem('notes_v2')) || [];
-        if (saved.length === 0) createNote("Leave me a note! 🎀", "#F8BBD0");
-        else saved.forEach(n => createNote(n.text, n.color));
+        let saved = JSON.parse(localStorage.getItem('mems_v5')) || [];
+        saved.forEach(n => createNote(n.text, n.color));
     }
 
-    // --- VIDEO PLAYER ---
     const video = document.getElementById('myVideo');
     const playBtn = document.getElementById('playBtn');
     const vinyl = document.getElementById('vinylDisk');
     const progress = document.getElementById('progress');
-    const timeText = document.getElementById('timeText');
 
     function togglePlay() {
         if (video.paused) { video.play(); playBtn.innerText = "⏸"; vinyl.style.animationPlayState = "running"; }
@@ -245,45 +258,12 @@
         let curS = Math.floor(video.currentTime % 60);
         let durM = Math.floor(video.duration / 60) || 0;
         let durS = Math.floor(video.duration % 60) || 0;
-        timeText.innerText = `${curM}:${curS.toString().padStart(2,'0')} / ${durM}:${durS.toString().padStart(2,'0')}`;
+        document.getElementById('timeText').innerText = `${curM}:${curS.toString().padStart(2,'0')} / ${durM}:${durS.toString().padStart(2,'0')}`;
     };
-
-    // --- NAVIGATION & GAME ---
-    function setCol(c) { currCol = c; }
-
-    function moveNoButton() {
-        const noBtn = document.getElementById('noBtn');
-        const area = document.getElementById('gameArea');
-        const yesBtn = document.getElementById('yesBtn');
-        const areaRect = area.getBoundingClientRect();
-        const yesRect = yesBtn.getBoundingClientRect();
-        let x, y, overlap = true;
-        while(overlap) {
-            x = Math.random() * (areaRect.width - 100);
-            y = Math.random() * (areaRect.height - 50);
-            const xO = x < (yesRect.left - areaRect.left) + yesRect.width + 40 && x + 100 > (yesRect.left - areaRect.left) - 40;
-            const yO = y < (yesRect.top - areaRect.top) + yesRect.height + 40 && y + 50 > (yesRect.top - areaRect.top) - 40;
-            if (!xO || !yO) overlap = false;
-        }
-        noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
-    }
-
-    function handleNo() {
-        clicks++;
-        const sticker = document.getElementById('mainSticker');
-        if (clicks == 1) sticker.src = "cce75f6f511daac6665568c8ffd7ce9c.gif";
-        else if (clicks == 3) sticker.src = "27174b57801a1e0335dc39438d15c6d0.gif";
-        else if (clicks == 5) sticker.src = "659781f6460a12ea529eb0bf195f9cc9.gif";
-        else if (clicks >= 6) sticker.src = "9c4f1f264e1135adc44512ff29d4bcf5.gif";
-        document.getElementById('mainTitle').innerText = phrases[Math.min(clicks-1, 5)];
-        document.getElementById('yesBtn').style.transform = `scale(${1 + clicks * 0.4})`;
-        moveNoButton();
-    }
 
     function showGifts() {
         document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
         document.getElementById('screen2').classList.remove('hidden');
-        document.body.style.overflow = "auto";
     }
 
     function showPage(id) {
@@ -293,5 +273,4 @@
     }
 </script>
 </body>
-            </html>
-                                                                                                                       
+</html>
