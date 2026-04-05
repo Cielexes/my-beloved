@@ -44,32 +44,60 @@
         .gift-grid { display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
         .gift-box { background: #fff; border: 3px solid var(--pastel-pink); border-radius: 25px; padding: 20px; width: 140px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 209, 220, 0.3); }
         .gift-box:hover { transform: translateY(-10px); }
-        .gift-box img { width: 100px; margin-bottom: 10px; }
+        .gift-box img { width: 100px; height: 100px; object-fit: cover; border-radius: 15px; margin-bottom: 10px; }
         .gift-box p { margin: 0; font-weight: bold; color: var(--text-red); }
 
-        /* --- PAGE 1: MEMORIES --- */
+        /* --- PAGE 1: AESTHETIC MEMORY GRID --- */
+        .upload-area { margin-bottom: 30px; background: white; padding: 15px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .photo-strip {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            padding: 40px 10px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 40px;
+            padding: 40px 20px;
+            perspective: 1000px;
         }
-        .polaroid { background: white; padding: 12px 12px 40px 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        .polaroid img { width: 100%; height: 200px; object-fit: cover; }
+        .polaroid { 
+            background: white; 
+            padding: 12px 12px 35px 12px; 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); 
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
+        /* Randomized tilts for a messy aesthetic */
+        .polaroid:nth-child(odd) { transform: rotate(-3deg); }
+        .polaroid:nth-child(even) { transform: rotate(4deg); }
+        .polaroid:nth-child(3n) { transform: rotate(-5deg) translateY(10px); }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
         
-        .partner-wrapper { grid-column: 1 / -1; display: flex; justify-content: center; gap: 15px; padding: 20px 0; }
-        .partner-left { transform: rotate(-5deg) !important; margin-right: -25px; z-index: 2; }
-        .partner-right { transform: rotate(4deg) !important; margin-left: -25px; z-index: 1; }
+        .polaroid img { width: 100%; height: 200px; object-fit: cover; pointer-events: none; }
+        .polaroid p { margin: 10px 0 0 0; font-size: 1.1rem; color: #777; }
 
-        /* --- PAGE 2: MUSIC BOX (GLUE.MP4) --- */
+        .partner-wrapper { grid-column: 1 / -1; display: flex; justify-content: center; gap: 10px; padding: 20px 0; }
+        .partner-left { transform: rotate(-8deg) !important; margin-right: -30px; z-index: 2; }
+        .partner-right { transform: rotate(6deg) !important; margin-left: -30px; z-index: 1; }
+
+        /* Lightbox for enlarging */
+        #lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; align-items: center;
+            justify-content: center; z-index: 1000; cursor: zoom-out;
+        }
+        #lightbox img { max-width: 90%; max-height: 80%; border: 10px solid white; border-bottom: 50px solid white; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+
+        /* --- PAGE 2: MUSIC BOX --- */
+        #page2 { width: 100%; display: flex; flex-direction: column; align-items: center; }
         .music-layout { display: flex; gap: 25px; width: 100%; max-width: 800px; margin: 20px auto; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
         .vinyl-box { background-color: var(--pastel-pink); border-radius: 20px; padding: 30px; display: flex; align-items: center; justify-content: center; width: 250px; height: 250px; box-sizing: border-box; box-shadow: 0 8px 15px rgba(255, 209, 220, 0.4); }
-        .vinyl { width: 190px; height: 190px; background-color: #333; border-radius: 50%; border: 10px solid #222; display: flex; align-items: center; justify-content: center; animation: spin 6s linear infinite; }
+        .vinyl { width: 190px; height: 190px; background-color: #333; border-radius: 50%; border: 10px solid #222; display: flex; align-items: center; justify-content: center; animation: spin 6s linear infinite; animation-play-state: paused; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .vinyl-inner { width: 60px; height: 60px; background-color: var(--pastel-pink); border-radius: 50%; border: 3px solid #fff; }
-        
-        .video-box { background-color: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 450px; box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
-        video { width: 100%; border-radius: 10px; }
+        .video-controls-area { flex: 1; min-width: 320px; max-width: 480px; display: flex; flex-direction: column; gap: 15px; }
+        .video-box { background-color: white; border-radius: 20px; padding: 20px; aspect-ratio: 16 / 9; box-shadow: 0 8px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #myVideo { width: 100%; border-radius: 10px; }
+        .controls-box { background-color: var(--pastel-pink); border-radius: 15px; padding: 10px 20px; box-shadow: 0 5px 10px rgba(255, 209, 220, 0.3); display: flex; justify-content: space-between; align-items: center; }
+        .play-pause-btn { background-color: white; color: var(--text-red); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.2s; font-size: 1.2rem; }
+        .duration-line { flex: 1; height: 4px; background-color: white; margin: 0 15px; border-radius: 2px; position: relative; }
+        .duration-progress { width: 0%; height: 100%; background-color: var(--text-red); border-radius: 2px; position: absolute; top: 0; left: 0; }
 
         /* --- PAGE 3: STICKY WALL --- */
         .wall-container { background: #f0f0f0; border: 8px solid #ddd; border-radius: 15px; min-height: 400px; padding: 20px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0; }
@@ -81,7 +109,9 @@
         .go-back-btn { margin-top: 30px; background: var(--pastel-pink); padding: 10px 40px; color: white; border-radius: 15px; cursor: pointer; border: none; font-family: 'Gaegu'; }
     </style>
 </head>
-<body>
+<body onclick="closeLightbox(event)">
+
+<div id="lightbox" onclick="this.style.display='none'"><img id="lightboxImg"></div>
 
 <div class="container">
     <div id="screen1">
@@ -105,21 +135,27 @@
 
     <div id="page1" class="hidden">
         <h1 style="color: var(--text-red); font-size: 2.5rem;">Captured Memories</h1>
-        <div class="photo-strip">
-            <div class="polaroid"><img src="20260217015836_1.jpg"><p>love you</p></div>
-            <div class="polaroid"><img src="20260328095546_1.jpg"><p>sweetly</p></div>
-            <div class="polaroid"><img src="20260328100013_1.jpg"><p>always</p></div>
-            <div class="polaroid"><img src="20260328101557_1.jpg"><p>captured</p></div>
-            <div class="polaroid"><img src="20260228215635_1.jpg"><p>us</p></div>
-            <div class="polaroid"><img src="SKY_20260403_092922.jpg"><p>skies</p></div>
+        
+        <div class="upload-area">
+            <p style="margin:0 0 10px 0; font-size: 0.9rem;">Upload a new photo:</p>
+            <input type="file" id="fileIn" accept="image/*" onchange="handleUpload(event)" style="font-family:'Gaegu'">
+        </div>
+
+        <div class="photo-strip" id="photoGrid">
+            <div class="polaroid" onclick="enlarge(this)"><img src="20260217015836_1.jpg"><p>love you</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="20260328095546_1.jpg"><p>sweetly</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="20260328100013_1.jpg"><p>always</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="20260328101557_1.jpg"><p>captured</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="20260228215635_1.jpg"><p>us</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260403_092922.jpg"><p>skies</p></div>
             <div class="partner-wrapper">
-                <div class="polaroid partner-left"><img src="2325290_1925.jpg"><p>you &</p></div>
-                <div class="polaroid partner-right"><img src="SKY_20260403_085117.jpg"><p>me</p></div>
+                <div class="polaroid partner-left" onclick="enlarge(this)"><img src="2325290_1925.jpg"><p>you &</p></div>
+                <div class="polaroid partner-right" onclick="enlarge(this)"><img src="SKY_20260403_085117.jpg"><p>me</p></div>
             </div>
-            <div class="polaroid"><img src="SKY_20260226_201203.jpg"><p>starlight</p></div>
-            <div class="polaroid"><img src="20260304134815_1.jpg"><p>forever</p></div>
-            <div class="polaroid"><img src="SKY_20260323_224725.jpg"><p>our world</p></div>
-            <div class="polaroid"><img src="SKY_20260324_081529.jpg"><p>mine</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260226_201203.jpg"><p>starlight</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="20260304134815_1.jpg"><p>forever</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260323_224725.jpg"><p>our world</p></div>
+            <div class="polaroid" onclick="enlarge(this)"><img src="SKY_20260324_081529.jpg"><p>mine</p></div>
         </div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
     </div>
@@ -128,12 +164,17 @@
         <h1 style="color: var(--text-red); margin-bottom: 20px;">A song that reminds me of us</h1>
         <div class="music-layout">
             <div class="vinyl-box">
-                <div class="vinyl"><div class="vinyl-inner"></div></div>
+                <div class="vinyl" id="vinylDisk"><div class="vinyl-inner"></div></div>
             </div>
-            <div class="video-box">
-                <video controls>
-                    <source src="glue.mp4" type="video/mp4">
-                </video>
+            <div class="video-controls-area">
+                <div class="video-box">
+                    <video id="myVideo"><source src="glue.mp4" type="video/mp4"></video>
+                </div>
+                <div class="controls-box">
+                    <div class="play-pause-btn" onclick="togglePlay()" id="playBtn">▶</div>
+                    <div class="duration-line"><div class="duration-progress" id="progress"></div></div>
+                    <div id="timeText" style="font-size: 0.8rem; color: #fff;">00:00 / 00:00</div>
+                </div>
             </div>
         </div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
@@ -160,8 +201,55 @@
     let currCol = '#FFF9C4';
     const phrases = ["Wait... are you sure? qwq", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me :vvv", "You're persistent! XD"];
 
-    function setCol(c) { currCol = c; }
+    // MEMORY UPLOAD & ENLARGE
+    function handleUpload(event) {
+        const file = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.className = 'polaroid';
+                // Random rotation for uploaded pic
+                const rot = Math.floor(Math.random() * 10) - 5;
+                div.style.transform = `rotate(${rot}deg)`;
+                div.onclick = function() { enlarge(this); };
+                div.innerHTML = `<img src="${e.target.result}"><p>new memory</p>`;
+                document.getElementById('photoGrid').appendChild(div);
+            }
+            reader.readAsDataURL(file);
+        }
+    }
 
+    function enlarge(el) {
+        const src = el.querySelector('img').src;
+        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+
+    // MUSIC BOX
+    const video = document.getElementById('myVideo');
+    const playBtn = document.getElementById('playBtn');
+    const vinyl = document.getElementById('vinylDisk');
+    const progress = document.getElementById('progress');
+    const timeText = document.getElementById('timeText');
+
+    function togglePlay() {
+        if (video.paused) { video.play(); playBtn.innerText = "⏸"; vinyl.style.animationPlayState = "running"; }
+        else { video.pause(); playBtn.innerText = "▶"; vinyl.style.animationPlayState = "paused"; }
+    }
+
+    video.ontimeupdate = function() {
+        const perc = (video.currentTime / video.duration) * 100;
+        progress.style.width = perc + "%";
+        let curM = Math.floor(video.currentTime / 60);
+        let curS = Math.floor(video.currentTime % 60);
+        let durM = Math.floor(video.duration / 60) || 0;
+        let durS = Math.floor(video.duration % 60) || 0;
+        timeText.innerText = `${curM}:${curS.toString().padStart(2,'0')} / ${durM}:${durS.toString().padStart(2,'0')}`;
+    };
+
+    // NAV & GAME
+    function setCol(c) { currCol = c; }
     function addNote() {
         const txt = document.getElementById('noteInput');
         if (!txt.value.trim()) return;
@@ -179,7 +267,6 @@
         const yesBtn = document.getElementById('yesBtn');
         const areaRect = area.getBoundingClientRect();
         const yesRect = yesBtn.getBoundingClientRect();
-
         let x, y, overlap = true;
         while(overlap) {
             x = Math.random() * (areaRect.width - 100);
@@ -188,18 +275,16 @@
             const yO = y < (yesRect.top - areaRect.top) + yesRect.height + 40 && y + 50 > (yesRect.top - areaRect.top) - 40;
             if (!xO || !yO) overlap = false;
         }
-        noBtn.style.left = x + 'px';
-        noBtn.style.top = y + 'px';
+        noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
     }
 
     function handleNo() {
         clicks++;
         const sticker = document.getElementById('mainSticker');
-        if (clicks == 1 || clicks == 2) sticker.src = "cce75f6f511daac6665568c8ffd7ce9c.gif";
-        else if (clicks == 3 || clicks == 4) sticker.src = "27174b57801a1e0335dc39438d15c6d0.gif";
+        if (clicks == 1) sticker.src = "cce75f6f511daac6665568c8ffd7ce9c.gif";
+        else if (clicks == 3) sticker.src = "27174b57801a1e0335dc39438d15c6d0.gif";
         else if (clicks == 5) sticker.src = "659781f6460a12ea529eb0bf195f9cc9.gif";
         else if (clicks >= 6) sticker.src = "9c4f1f264e1135adc44512ff29d4bcf5.gif";
-
         document.getElementById('mainTitle').innerText = phrases[Math.min(clicks-1, 5)];
         document.getElementById('yesBtn').style.transform = `scale(${1 + clicks * 0.4})`;
         moveNoButton();
@@ -218,5 +303,4 @@
     }
 </script>
 </body>
-    </html>
-                                                                                                 
+</html>
