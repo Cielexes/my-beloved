@@ -48,7 +48,6 @@
         .gift-box p { margin: 0; font-weight: bold; color: var(--text-red); }
 
         /* --- PAGE 1: AESTHETIC MEMORY GRID --- */
-        .upload-area { margin-bottom: 30px; background: white; padding: 15px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .photo-strip {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -133,11 +132,7 @@
 
     <div id="page1" class="hidden">
         <h1 style="color: var(--text-red); font-size: 2.5rem;">Captured Memories</h1>
-        <div class="upload-area">
-            <p style="margin:0 0 10px 0; font-size: 0.9rem;">Upload a new photo:</p>
-            <input type="file" id="fileIn" accept="image/*" onchange="handleUpload(event)" style="font-family:'Gaegu'">
-        </div>
-
+        
         <div class="photo-strip" id="photoGrid">
             <div class="polaroid" onclick="enlarge(this)"><img src="20260217015836_1.jpg"><p>love you</p></div>
             <div class="polaroid" onclick="enlarge(this)"><img src="20260328095546_1.jpg"><p>sweetly</p></div>
@@ -197,39 +192,7 @@
     const phrases = ["Wait... are you sure? qwq", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me :vvv", "You're persistent! XD"];
 
     function initApp() {
-        loadMemories();
         loadNotes();
-    }
-
-    function handleUpload(event) {
-        const file = event.target.files;
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imgData = e.target.result;
-                createPol(imgData, "new memory 🎀", true);
-                let saved = JSON.parse(localStorage.getItem('mems_v2')) || [];
-                saved.push(imgData);
-                localStorage.setItem('mems_v2', JSON.stringify(saved));
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function createPol(src, text, isNew) {
-        const div = document.createElement('div');
-        div.className = 'polaroid';
-        const rot = Math.floor(Math.random() * 12) - 6;
-        div.style.transform = `rotate(${rot}deg)`;
-        div.onclick = function() { enlarge(this); };
-        div.innerHTML = `<img src="${src}"><p>${text}</p>`;
-        const grid = document.getElementById('photoGrid');
-        isNew ? grid.prepend(div) : grid.appendChild(div);
-    }
-
-    function loadMemories() {
-        let saved = JSON.parse(localStorage.getItem('mems_v2')) || [];
-        saved.forEach(img => createPol(img, "saved memory 🎀", false));
     }
 
     function enlarge(el) {
@@ -237,6 +200,7 @@
         document.getElementById('lightbox').style.display = 'flex';
     }
 
+    // --- STICKY WALL PERSISTENCE ---
     function addNote() {
         const txt = document.getElementById('noteInput');
         if (!txt.value.trim()) return;
@@ -262,6 +226,7 @@
         else saved.forEach(n => createNote(n.text, n.color));
     }
 
+    // --- VIDEO PLAYER ---
     const video = document.getElementById('myVideo');
     const playBtn = document.getElementById('playBtn');
     const vinyl = document.getElementById('vinylDisk');
@@ -283,6 +248,7 @@
         timeText.innerText = `${curM}:${curS.toString().padStart(2,'0')} / ${durM}:${durS.toString().padStart(2,'0')}`;
     };
 
+    // --- NAVIGATION & GAME ---
     function setCol(c) { currCol = c; }
 
     function moveNoButton() {
@@ -327,5 +293,5 @@
     }
 </script>
 </body>
-                    </html>
-            
+            </html>
+                                                                                                                       
