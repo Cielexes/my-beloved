@@ -63,7 +63,6 @@
             transition: 0.3s ease;
             cursor: pointer;
         }
-        /* Randomized tilts for a messy aesthetic */
         .polaroid:nth-child(odd) { transform: rotate(-3deg); }
         .polaroid:nth-child(even) { transform: rotate(4deg); }
         .polaroid:nth-child(3n) { transform: rotate(-5deg) translateY(10px); }
@@ -76,7 +75,6 @@
         .partner-left { transform: rotate(-8deg) !important; margin-right: -30px; z-index: 2; }
         .partner-right { transform: rotate(6deg) !important; margin-left: -30px; z-index: 1; }
 
-        /* Lightbox for enlarging */
         #lightbox {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); display: none; align-items: center;
@@ -95,7 +93,7 @@
         .video-box { background-color: white; border-radius: 20px; padding: 20px; aspect-ratio: 16 / 9; box-shadow: 0 8px 15px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; }
         #myVideo { width: 100%; border-radius: 10px; }
         .controls-box { background-color: var(--pastel-pink); border-radius: 15px; padding: 10px 20px; box-shadow: 0 5px 10px rgba(255, 209, 220, 0.3); display: flex; justify-content: space-between; align-items: center; }
-        .play-pause-btn { background-color: white; color: var(--text-red); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.2s; font-size: 1.2rem; }
+        .play-pause-btn { background-color: white; color: var(--text-red); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; cursor: pointer; transition: all 0.2s; font-size: 1.2rem; }
         .duration-line { flex: 1; height: 4px; background-color: white; margin: 0 15px; border-radius: 2px; position: relative; }
         .duration-progress { width: 0%; height: 100%; background-color: var(--text-red); border-radius: 2px; position: absolute; top: 0; left: 0; }
 
@@ -109,7 +107,7 @@
         .go-back-btn { margin-top: 30px; background: var(--pastel-pink); padding: 10px 40px; color: white; border-radius: 15px; cursor: pointer; border: none; font-family: 'Gaegu'; }
     </style>
 </head>
-<body onclick="closeLightbox(event)">
+<body onload="initApp()">
 
 <div id="lightbox" onclick="this.style.display='none'"><img id="lightboxImg"></div>
 
@@ -135,7 +133,6 @@
 
     <div id="page1" class="hidden">
         <h1 style="color: var(--text-red); font-size: 2.5rem;">Captured Memories</h1>
-        
         <div class="upload-area">
             <p style="margin:0 0 10px 0; font-size: 0.9rem;">Upload a new photo:</p>
             <input type="file" id="fileIn" accept="image/*" onchange="handleUpload(event)" style="font-family:'Gaegu'">
@@ -189,9 +186,7 @@
             <div class="color-btn" style="background: var(--note-pink);" onclick="setCol('#F8BBD0')"></div>
             <button class="main-btn" style="background: var(--pastel-green); color:white; padding:5px 15px; font-size:1.1rem;" onclick="addNote()">Pin it!</button>
         </div>
-        <div class="wall-container" id="wall">
-            <div class="sticky-note" style="background: var(--note-pink);">Leave me a note! 🎀</div>
-        </div>
+        <div class="wall-container" id="wall"></div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
     </div>
 </div>
@@ -201,32 +196,72 @@
     let currCol = '#FFF9C4';
     const phrases = ["Wait... are you sure? qwq", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me :vvv", "You're persistent! XD"];
 
-    // MEMORY UPLOAD & ENLARGE
+    function initApp() {
+        loadMemories();
+        loadNotes();
+    }
+
     function handleUpload(event) {
         const file = event.target.files;
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                const div = document.createElement('div');
-                div.className = 'polaroid';
-                // Random rotation for uploaded pic
-                const rot = Math.floor(Math.random() * 10) - 5;
-                div.style.transform = `rotate(${rot}deg)`;
-                div.onclick = function() { enlarge(this); };
-                div.innerHTML = `<img src="${e.target.result}"><p>new memory</p>`;
-                document.getElementById('photoGrid').appendChild(div);
+                const imgData = e.target.result;
+                createPol(imgData, "new memory 🎀", true);
+                let saved = JSON.parse(localStorage.getItem('mems_v2')) || [];
+                saved.push(imgData);
+                localStorage.setItem('mems_v2', JSON.stringify(saved));
             }
             reader.readAsDataURL(file);
         }
     }
 
+    function createPol(src, text, isNew) {
+        const div = document.createElement('div');
+        div.className = 'polaroid';
+        const rot = Math.floor(Math.random() * 12) - 6;
+        div.style.transform = `rotate(${rot}deg)`;
+        div.onclick = function() { enlarge(this); };
+        div.innerHTML = `<img src="${src}"><p>${text}</p>`;
+        const grid = document.getElementById('photoGrid');
+        isNew ? grid.prepend(div) : grid.appendChild(div);
+    }
+
+    function loadMemories() {
+        let saved = JSON.parse(localStorage.getItem('mems_v2')) || [];
+        saved.forEach(img => createPol(img, "saved memory 🎀", false));
+    }
+
     function enlarge(el) {
-        const src = el.querySelector('img').src;
-        document.getElementById('lightboxImg').src = src;
+        document.getElementById('lightboxImg').src = el.querySelector('img').src;
         document.getElementById('lightbox').style.display = 'flex';
     }
 
-    // MUSIC BOX
+    function addNote() {
+        const txt = document.getElementById('noteInput');
+        if (!txt.value.trim()) return;
+        const noteObj = { text: txt.value, color: currCol };
+        createNote(noteObj.text, noteObj.color);
+        let saved = JSON.parse(localStorage.getItem('notes_v2')) || [];
+        saved.push(noteObj);
+        localStorage.setItem('notes_v2', JSON.stringify(saved));
+        txt.value = "";
+    }
+
+    function createNote(text, color) {
+        const note = document.createElement('div');
+        note.className = 'sticky-note';
+        note.style.background = color;
+        note.innerText = text;
+        document.getElementById('wall').appendChild(note);
+    }
+
+    function loadNotes() {
+        let saved = JSON.parse(localStorage.getItem('notes_v2')) || [];
+        if (saved.length === 0) createNote("Leave me a note! 🎀", "#F8BBD0");
+        else saved.forEach(n => createNote(n.text, n.color));
+    }
+
     const video = document.getElementById('myVideo');
     const playBtn = document.getElementById('playBtn');
     const vinyl = document.getElementById('vinylDisk');
@@ -248,18 +283,7 @@
         timeText.innerText = `${curM}:${curS.toString().padStart(2,'0')} / ${durM}:${durS.toString().padStart(2,'0')}`;
     };
 
-    // NAV & GAME
     function setCol(c) { currCol = c; }
-    function addNote() {
-        const txt = document.getElementById('noteInput');
-        if (!txt.value.trim()) return;
-        const note = document.createElement('div');
-        note.className = 'sticky-note';
-        note.style.background = currCol;
-        note.innerText = txt.value;
-        document.getElementById('wall').appendChild(note);
-        txt.value = "";
-    }
 
     function moveNoButton() {
         const noBtn = document.getElementById('noBtn');
@@ -303,4 +327,5 @@
     }
 </script>
 </body>
-</html>
+                    </html>
+            
