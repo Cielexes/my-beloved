@@ -47,20 +47,38 @@
         .gift-box img { width: 100px; margin-bottom: 10px; }
         .gift-box p { margin: 0; font-weight: bold; color: var(--text-red); }
 
-        /* --- PAGE 1: MEMORIES --- */
-        .photo-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; padding: 20px 10px; }
-        .polaroid { background: white; padding: 12px 12px 40px 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transform: rotate(-2deg); }
-        .polaroid img { width: 100%; height: 200px; object-fit: cover; }
-        .polaroid:nth-child(even) { transform: rotate(2deg); }
-
-        /* --- PAGE 3: STICKY NOTE WALL --- */
-        .wall-container {
-            background: #f0f0f0; border: 8px solid #ddd; border-radius: 15px; min-height: 400px; padding: 20px;
-            display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0;
+        /* --- PAGE 1: MEMORIES (GRID LAYOUT) --- */
+        .photo-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 40px 10px;
         }
+        .polaroid { background: white; padding: 12px 12px 40px 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .polaroid img { width: 100%; height: 200px; object-fit: cover; }
+        
+        .partner-wrapper { grid-column: 1 / -1; display: flex; justify-content: center; gap: 15px; padding: 20px 0; }
+        .partner-left { transform: rotate(-5deg) !important; margin-right: -25px; z-index: 2; }
+        .partner-right { transform: rotate(4deg) !important; margin-left: -25px; z-index: 1; }
+
+        /* --- PAGE 2: MUSIC BOX --- */
+        .music-layout { display: flex; gap: 25px; width: 100%; max-width: 800px; margin: 20px auto; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+        .vinyl-box { background-color: var(--pastel-pink); border-radius: 20px; padding: 30px; display: flex; align-items: center; justify-content: center; width: 250px; height: 250px; box-sizing: border-box; box-shadow: 0 8px 15px rgba(255, 209, 220, 0.4); }
+        .vinyl { width: 190px; height: 190px; background-color: #333; border-radius: 50%; border: 10px solid #222; display: flex; align-items: center; justify-content: center; animation: spin 6s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .vinyl-inner { width: 60px; height: 60px; background-color: var(--pastel-pink); border-radius: 50%; border: 3px solid #fff; }
+        .video-controls-area { flex: 1; min-width: 320px; max-width: 480px; display: flex; flex-direction: column; gap: 15px; }
+        .video-box { background-color: white; border-radius: 20px; padding: 15px; aspect-ratio: 16 / 9; box-shadow: 0 8px 15px rgba(0,0,0,0.05); overflow: hidden; }
+        .controls-box { background-color: var(--pastel-pink); border-radius: 15px; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .play-pause-btn { background-color: white; color: var(--text-red); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .duration-line { flex: 1; height: 4px; background-color: white; margin: 0 15px; border-radius: 2px; position: relative; }
+        .duration-progress { width: 45%; height: 100%; background-color: var(--text-red); border-radius: 2px; position: absolute; }
+
+        /* --- PAGE 3: STICKY WALL --- */
+        .wall-container { background: #f0f0f0; border: 8px solid #ddd; border-radius: 15px; min-height: 400px; padding: 20px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0; }
         .sticky-note { width: 140px; height: 140px; padding: 15px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); transform: rotate(-2deg); font-size: 1rem; text-align: left; word-wrap: break-word; overflow-y: auto; }
         .note-controls { background: white; padding: 20px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        textarea { width: 90%; height: 60px; border: 2px solid var(--pastel-pink); border-radius: 10px; font-family: 'Gaegu'; padding: 10px; }
+        textarea { width: 90%; height: 60px; border: 2px solid var(--pastel-pink); border-radius: 10px; font-family: 'Gaegu'; padding: 10px; margin-bottom: 10px; }
         .color-btn { width: 25px; height: 25px; border-radius: 50%; display: inline-block; margin: 5px; cursor: pointer; border: 2px solid #fff; }
 
         .go-back-btn { margin-top: 30px; background: var(--pastel-pink); padding: 10px 40px; color: white; border-radius: 15px; cursor: pointer; border: none; font-family: 'Gaegu'; }
@@ -79,39 +97,61 @@
     </div>
 
     <div id="screen2" class="hidden">
-        <h1 style="color: var(--text-red); font-size: 2.5rem;">I knew it! Pick a box 💞</h1>
+        <h1 style="color: var(--text-red); font-size: 2.5rem;">I knew you'd say yes hehe💞</h1>
         <img src="d53afd2ceb92715179699f7dc710238b.gif" class="sticker">
         <div class="gift-grid">
             <div class="gift-box" onclick="showPage('page1')">
-                <img src="7c9fd6209761907494bd3d618fe98d24.png">
+                <img src="7c9fd6209761907494bd3d618fe98d24.jpg">
                 <p>MEMORIES</p>
             </div>
             <div class="gift-box" onclick="showPage('page2')">
-                <img src="7c9fd6209761907494bd3d618fe98d24.png">
+                <img src="7c9fd6209761907494bd3d618fe98d24.jpg">
                 <p>OUR SONG</p>
             </div>
             <div class="gift-box" onclick="showPage('page3')">
-                <img src="7c9fd6209761907494bd3d618fe98d24.png">
+                <img src="7c9fd6209761907494bd3d618fe98d24.jpg">
                 <p>OUR WALL</p>
             </div>
         </div>
     </div>
 
     <div id="page1" class="hidden">
-        <h1 style="color: var(--text-red);">Captured Memories</h1>
+        <h1 style="color: var(--text-red); font-size: 2.5rem;">Captured Memories</h1>
         <div class="photo-strip">
             <div class="polaroid"><img src="20260217015836_1.jpg"><p>love you</p></div>
             <div class="polaroid"><img src="20260328095546_1.jpg"><p>sweetly</p></div>
+            <div class="polaroid"><img src="20260328100013_1.jpg"><p>always</p></div>
+            <div class="polaroid"><img src="20260328101557_1.jpg"><p>captured</p></div>
+            <div class="polaroid"><img src="20260228215635_1.jpg"><p>us</p></div>
             <div class="polaroid"><img src="SKY_20260403_092922.jpg"><p>skies</p></div>
+            <div class="partner-wrapper">
+                <div class="polaroid partner-left"><img src="2325290_1925.jpg"><p>you &</p></div>
+                <div class="polaroid partner-right"><img src="SKY_20260403_085117.jpg"><p>me</p></div>
+            </div>
+            <div class="polaroid"><img src="SKY_20260226_201203.jpg"><p>starlight</p></div>
             <div class="polaroid"><img src="20260304134815_1.jpg"><p>forever</p></div>
+            <div class="polaroid"><img src="SKY_20260323_224725.jpg"><p>our world</p></div>
+            <div class="polaroid"><img src="SKY_20260324_081529.jpg"><p>mine</p></div>
         </div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
     </div>
 
     <div id="page2" class="hidden">
-        <h1 style="color: var(--text-red);">A song for us</h1>
-        <div style="background: white; padding: 20px; border-radius: 20px;">
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/NsC7WGV-xU4" frameborder="0" allowfullscreen></iframe>
+        <h1 style="color: var(--text-red); margin-bottom: 20px;">A song that reminds me of us</h1>
+        <div class="music-layout">
+            <div class="vinyl-box">
+                <div class="vinyl"><div class="vinyl-inner"></div></div>
+            </div>
+            <div class="video-controls-area">
+                <div class="video-box">
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NsC7WGV-xU4" frameborder="0" allowfullscreen style="border-radius: 10px;"></iframe>
+                </div>
+                <div class="controls-box">
+                    <div class="play-pause-btn">▶</div>
+                    <div class="duration-line"><div class="duration-progress"></div></div>
+                    <div style="font-size: 0.8rem; color: #fff;">01:24 / 03:45</div>
+                </div>
+            </div>
         </div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
     </div>
@@ -126,7 +166,7 @@
             <button class="main-btn" style="background: var(--pastel-green); color:white; padding:5px 15px; font-size:1.1rem;" onclick="addNote()">Pin it!</button>
         </div>
         <div class="wall-container" id="wall">
-            <div class="sticky-note" style="background: var(--note-pink);">I'm so happy we have this space! Leave me a note! 🎀</div>
+            <div class="sticky-note" style="background: var(--note-pink);">Happy Valentine's Day! I made this wall so we can leave little messages for each other. I love you! 🎀</div>
         </div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
     </div>
@@ -135,7 +175,7 @@
 <script>
     let clicks = 0;
     let currCol = '#FFF9C4';
-    const phrases = ["Wait... are you sure?", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me", "You're persistent! XD"];
+    const phrases = ["Wait... are you sure? qwq", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me :vvv", "You're persistent! XD"];
 
     function setCol(c) { currCol = c; }
 
@@ -161,8 +201,8 @@
         while(overlap) {
             x = Math.random() * (areaRect.width - 100);
             y = Math.random() * (areaRect.height - 50);
-            const xO = x < (yesRect.left - areaRect.left) + yesRect.width + 20 && x + 100 > (yesRect.left - areaRect.left) - 20;
-            const yO = y < (yesRect.top - areaRect.top) + yesRect.height + 20 && y + 50 > (yesRect.top - areaRect.top) - 20;
+            const xO = x < (yesRect.left - areaRect.left) + yesRect.width + 40 && x + 100 > (yesRect.left - areaRect.left) - 40;
+            const yO = y < (yesRect.top - areaRect.top) + yesRect.height + 40 && y + 50 > (yesRect.top - areaRect.top) - 40;
             if (!xO || !yO) overlap = false;
         }
         noBtn.style.left = x + 'px';
@@ -195,4 +235,5 @@
     }
 </script>
 </body>
-</html>
+    </html>
+    
