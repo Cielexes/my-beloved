@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Favorite Person 🎀</title>
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -24,7 +24,7 @@
             justify-content: center;
             min-height: 100vh;
             color: #555;
-            overflow-x: hidden;
+            overflow: hidden; /* Prevent scroll during the 'No' game */
             font-size: 1.2rem;
         }
 
@@ -33,12 +33,13 @@
             width: 95%;
             max-width: 900px;
             padding: 40px 10px;
+            position: relative;
         }
 
         .hidden { display: none !important; }
 
         /* --- SCREEN 1: THE INTERACTIVE QUESTION --- */
-        .sticker { width: 220px; margin-bottom: 20px; border-radius: 20px; }
+        .sticker { width: 220px; height: 220px; object-fit: contain; margin-bottom: 20px; border-radius: 20px; }
         
         .btn-container {
             display: flex;
@@ -46,6 +47,7 @@
             align-items: center;
             gap: 20px;
             min-height: 350px; 
+            position: relative;
         }
 
         button {
@@ -54,14 +56,23 @@
             cursor: pointer;
             font-family: 'Gaegu', cursive;
             font-weight: bold;
-            transition: all 0.2s ease-out;
+            transition: transform 0.2s ease-out;
             font-size: 1.5rem;
         }
 
-        #yesBtn { background-color: var(--pastel-green); color: white; padding: 15px 40px; }
-        #noBtn { background-color: var(--pastel-red); color: white; padding: 15px 40px; }
+        #yesBtn { background-color: var(--pastel-green); color: white; padding: 15px 40px; z-index: 10; position: relative; }
+        
+        #noBtn { 
+            background-color: var(--pastel-red); 
+            color: white; 
+            padding: 15px 40px; 
+            position: absolute; /* Needed for moving */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+        }
 
-        /* --- SCREEN 2: GIFT MENU (Updated to White/Pink Outline) --- */
+        /* --- SCREEN 2: GIFT MENU --- */
+        #screen2 { overflow-y: auto; height: 100vh; width: 100%; }
         .gift-grid {
             display: flex;
             justify-content: center;
@@ -71,8 +82,8 @@
         }
 
         .gift-box {
-            background-color: #FFFFFF; /* White background for your img */
-            border: 3px solid var(--pastel-pink); /* Pastel pink outline */
+            background-color: #FFFFFF;
+            border: 3px solid var(--pastel-pink);
             border-radius: 25px;
             padding: 20px;
             width: 150px;
@@ -85,30 +96,23 @@
         .gift-box img { width: 100px; margin-bottom: 10px; border-radius: 10px; }
         .gift-box p { margin: 0; font-weight: bold; color: var(--text-red); }
 
-        /* --- PAGE 1: 12-PHOTO AESTHETIC GRID --- */
+        /* --- PAGE 1: PHOTOS --- */
         .photo-strip {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 30px;
             padding: 40px 10px;
         }
-
         .polaroid {
             background: white;
             padding: 12px 12px 40px 12px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             position: relative;
-            transition: 0.3s;
         }
-
-        .polaroid img { width: 100%; height: 200px; object-fit: cover; border: 1px solid #f9f9f9; }
-        .polaroid p { font-size: 1.3rem; margin: 10px 0 0; color: #888; }
-        
+        .polaroid img { width: 100%; height: 200px; object-fit: cover; }
         .polaroid:nth-child(odd) { transform: rotate(-2deg); }
         .polaroid:nth-child(even) { transform: rotate(2deg); }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
 
-        /* Overlapping Partner Photos */
         .partner-wrapper {
             grid-column: 1 / -1;
             display: flex;
@@ -121,64 +125,34 @@
 
         /* --- PAGE 2: MUSIC --- */
         .music-card {
-            display: flex;
-            background: white;
-            border-radius: 30px;
-            padding: 30px;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background: white; border-radius: 30px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
-        .vinyl {
-            width: 160px; height: 160px;
-            background: #222;
-            border-radius: 50%;
-            border: 10px solid #333;
-            animation: spin 6s linear infinite;
-            display: flex; align-items: center; justify-content: center;
-        }
-        @keyframes spin { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-        .vinyl-inner { width: 55px; height: 55px; background: var(--pastel-pink); border-radius: 50%; border: 3px solid #fff; }
 
         /* --- PAGE 3: LETTER --- */
         .kiss-bg {
             background-image: url('https://www.transparentpng.com/download/lipstick-stain/lipstick-stain-free-png-2.png'); 
-            background-size: 100px;
-            background-repeat: repeat;
-            padding: 50px 10px;
+            background-size: 100px; background-repeat: repeat; padding: 50px 10px;
         }
         .letter-paper {
-            background: #fff;
-            padding: 50px;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 5px 10px 30px rgba(0,0,0,0.1);
-            transform: rotate(-1deg);
-            text-align: left;
-            line-height: 1.8;
+            background: #fff; padding: 50px; max-width: 600px; margin: 0 auto;
+            box-shadow: 5px 10px 30px rgba(0,0,0,0.1); transform: rotate(-1deg); text-align: left;
         }
-        .letter-paper h2 { color: var(--text-red); font-size: 2rem; }
 
         .go-back-btn { 
-            margin-top: 30px; 
-            background: var(--pastel-pink); 
-            padding: 10px 40px; 
-            color: white; 
-            border-radius: 15px; 
-            font-size: 1.2rem;
+            margin-top: 30px; background: var(--pastel-pink); padding: 10px 40px; 
+            color: white; border-radius: 15px; cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="mainContainer">
     <div id="screen1">
-        <img src="49f79c18d52d885b3eca73c28ad3c11a.gif" class="sticker">
+        <img id="mainSticker" src="49f79c18d52d885b3eca73c28ad3c11a.gif" class="sticker">
         <h1 id="mainTitle" style="color: var(--text-red); font-size: 2.5rem;">Do you love me? 🎀</h1>
-        <div class="btn-container">
+        <div class="btn-container" id="gameArea">
             <button id="yesBtn" onclick="showGifts()">Yes</button>
-            <button id="noBtn" onclick="handleNo()">No</button>
+            <button id="noBtn" onmouseover="moveNoButton()" onclick="handleNo()">No</button>
         </div>
     </div>
 
@@ -186,18 +160,9 @@
         <h1 style="color: var(--text-red); font-size: 2.5rem;">I knew you'd say yes hehe 💞</h1>
         <img src="d53afd2ceb92715179699f7dc710238b.gif" class="sticker">
         <div class="gift-grid">
-            <div class="gift-box" onclick="showPage('page1')">
-                <img src="7c9fd6209761907494bd3d618fe98d24.png">
-                <p>MEMORIES</p>
-            </div>
-            <div class="gift-box" onclick="showPage('page2')">
-                <img src="7c9fd6209761907494bd3d618fe98d24.png">
-                <p>OUR SONG</p>
-            </div>
-            <div class="gift-box" onclick="showPage('page3')">
-                <img src="7c9fd6209761907494bd3d618fe98d24.png">
-                <p>MY LETTER</p>
-            </div>
+            <div class="gift-box" onclick="showPage('page1')"><img src="7c9fd6209761907494bd3d618fe98d24.png"><p>MEMORIES</p></div>
+            <div class="gift-box" onclick="showPage('page2')"><img src="7c9fd6209761907494bd3d618fe98d24.png"><p>OUR SONG</p></div>
+            <div class="gift-box" onclick="showPage('page3')"><img src="7c9fd6209761907494bd3d618fe98d24.png"><p>MY LETTER</p></div>
         </div>
     </div>
 
@@ -210,12 +175,10 @@
             <div class="polaroid"><img src="20260328101557_1.jpg"><p>captured</p></div>
             <div class="polaroid"><img src="20260228215635_1.jpg"><p>us</p></div>
             <div class="polaroid"><img src="SKY_20260403_092922.jpg"><p>skies</p></div>
-
             <div class="partner-wrapper">
                 <div class="polaroid partner-left"><img src="2325290_1925.jpg"><p>you &</p></div>
                 <div class="polaroid partner-right"><img src="SKY_20260403_085117.jpg"><p>me</p></div>
             </div>
-
             <div class="polaroid"><img src="SKY_20260226_201203.jpg"><p>starlight</p></div>
             <div class="polaroid"><img src="20260304134815_1.jpg"><p>forever</p></div>
             <div class="polaroid"><img src="SKY_20260323_224725.jpg"><p>our world</p></div>
@@ -227,10 +190,7 @@
     <div id="page2" class="hidden">
         <h1 style="color: var(--text-red); font-size: 2.5rem;">A song that reminds me of us</h1>
         <div class="music-card">
-            <div class="vinyl"><div class="vinyl-inner"></div></div>
-            <div style="flex:1; min-width:300px; aspect-ratio:16/9;">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NsC7WGV-xU4" frameborder="0" allowfullscreen></iframe>
-            </div>
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/NsC7WGV-xU4" frameborder="0" allowfullscreen></iframe>
         </div>
         <button class="go-back-btn" onclick="showGifts()">Go back</button>
     </div>
@@ -238,7 +198,7 @@
     <div id="page3" class="hidden">
         <div class="kiss-bg">
             <div class="letter-paper">
-                <h2 style="font-family: 'Gaegu', cursive;">Happy Valentine's Day, My Love</h2>
+                <h2 style="color: var(--text-red); font-family: 'Gaegu', cursive;">Happy Valentine's Day, My Love</h2>
                 <p>Today is Valentine's Day, and I just want you to know how grateful I am to have you in my life. You make every ordinary moment feel special.</p>
                 <p>Being with you feels like home. I find comfort in you, and I will never take your love for granted.</p>
                 <p style="text-align: right; color: var(--text-red); font-size: 1.5rem;">Forever yours,</p>
@@ -251,25 +211,68 @@
 <script>
     let clicks = 0;
     const phrases = ["Wait... are you sure? qwq", "Nah that's not right...", "Try again please T-T", "Be serious.", "Okay now you're teasing me :vvv", "Okay last chance."];
-    
+
+    function moveNoButton() {
+        const noBtn = document.getElementById('noBtn');
+        const container = document.getElementById('gameArea');
+        const yesBtn = document.getElementById('yesBtn');
+        
+        const containerRect = container.getBoundingClientRect();
+        const yesRect = yesBtn.getBoundingClientRect();
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        let newLeft, newTop;
+        let isOverlapping = true;
+
+        // Try to find a spot that doesn't overlap with the "Yes" button
+        while (isOverlapping) {
+            newLeft = Math.random() * (containerRect.width - btnWidth);
+            newTop = Math.random() * (containerRect.height - btnHeight);
+
+            // Check overlap with Yes Button
+            const yesLeftRel = yesRect.left - containerRect.left;
+            const yesTopRel = yesRect.top - containerRect.top;
+
+            const overlapX = newLeft < yesLeftRel + yesRect.width + 20 && newLeft + btnWidth > yesLeftRel - 20;
+            const overlapY = newTop < yesTopRel + yesRect.height + 20 && newTop + btnHeight > yesTopRel - 20;
+
+            if (!(overlapX && overlapY)) {
+                isOverlapping = false;
+            }
+        }
+
+        noBtn.style.left = newLeft + 'px';
+        noBtn.style.top = newTop + 'px';
+    }
+
     function handleNo() {
         clicks++;
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
         const title = document.getElementById('mainTitle');
+        const sticker = document.getElementById('mainSticker');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        // GIF changes
+        if (clicks === 1 || clicks === 2) sticker.src = "cce75f6f511daac6665568c8ffd7ce9c.gif";
+        else if (clicks === 3 || clicks === 4) sticker.src = "27174b57801a1e0335dc39438d15c6d0.gif";
+        else if (clicks === 5) sticker.src = "659781f6460a12ea529eb0bf195f9cc9.gif";
+        else if (clicks >= 6) sticker.src = "9c4f1f264e1135adc44512ff29d4bcf5.gif";
+
         if (clicks <= 6) {
             title.innerText = phrases[clicks - 1];
-            yesBtn.style.transform = `scale(${1 + clicks * 0.5})`;
-            noBtn.style.transform = `scale(${1 - clicks * 0.15})`;
+            yesBtn.style.transform = `scale(${1 + clicks * 0.4})`;
             if (clicks === 6) noBtn.style.display = 'none';
         }
+        moveNoButton();
     }
-    
+
     function showGifts() {
+        document.body.style.overflow = 'auto'; // Allow scrolling again
         document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
         document.getElementById('screen2').classList.remove('hidden');
     }
-    
+
     function showPage(id) {
         document.getElementById('screen2').classList.add('hidden');
         document.getElementById(id).classList.remove('hidden');
@@ -277,5 +280,4 @@
     }
 </script>
 </body>
-    </html>
-    
+</html>
